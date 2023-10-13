@@ -4,6 +4,7 @@ import (
 	"context"
 	"fmt"
 	"net/http"
+	"nu/corpus-reader/adapter/logger"
 	"os"
 	"os/signal"
 	"syscall"
@@ -14,6 +15,7 @@ import (
 
 type webEngine struct {
 	router     *gin.Engine
+  log         logger.Logger
 	port       Port
 	ctxTimeout time.Duration
 }
@@ -21,16 +23,17 @@ type webEngine struct {
 func newServer(
 	port Port,
 	t time.Duration,
+  log logger.Logger,
 ) *webEngine {
 	return &webEngine{
 		router:     gin.New(),
+    log: log,
 		port:       port,
 		ctxTimeout: t,
 	}
 }
 
 func (g webEngine) Listen() {
-	fmt.Println("here")
 	gin.SetMode(gin.DebugMode)
 	gin.Recovery()
 
@@ -46,11 +49,9 @@ func (g webEngine) Listen() {
 	stop := make(chan os.Signal, 1)
 	signal.Notify(stop, os.Interrupt, syscall.SIGINT, syscall.SIGTERM)
 	go func() {
-		fmt.Println("Starting HTTP server")
+   	g.log.WithFields(logger.Fields{"port": g.port}).Infof("Starting HTTP Server")
 		if err := server.ListenAndServe(); err != nil {
-			fmt.Print(err)
-			fmt.Println("Error while starting http server")
-		}
+      g.log.WithError(err).Fatalln("Error starting HTTP server")}
 	}()
 
 	<-stop
@@ -61,10 +62,9 @@ func (g webEngine) Listen() {
 	}()
 
 	if err := server.Shutdown(ctx); err != nil {
-		fmt.Println("Server Shutdown Failed")
+    g.log.WithError(err).Fatalln("Error starting HTTP server")}
 	}
 
-}
 
 func (g webEngine) setAppHandlers(router *gin.Engine) {
 	router.GET("v1/healthcheck/", g.healthcheck())

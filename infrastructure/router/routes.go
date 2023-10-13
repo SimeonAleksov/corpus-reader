@@ -11,3 +11,10 @@ func (g webEngine) healthcheck() gin.HandlerFunc {
 		action.Healthcheck(c.Writer, c.Request)
 	}
 }
+
+
+func (g webEngine) search() gin.HandlerFunc {
+	return func(c *gin.Context) {
+
+	}
+}

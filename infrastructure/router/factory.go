@@ -2,6 +2,7 @@ package router
 
 import (
 	"errors"
+	"nu/corpus-reader/adapter/logger"
 	"time"
 )
 
@@ -20,10 +21,11 @@ func WebServerFactory(
 	instance int,
 	port Port,
 	ctxTimeout time.Duration,
+  log logger.Logger,
 ) (Server, error) {
 	switch instance {
 	case Gin:
-		return newServer(port, ctxTimeout), nil
+		return newServer(port, ctxTimeout, log), nil
 	default:
 		return nil, errInvalidWebServerInstance
 	}

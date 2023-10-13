@@ -1,7 +1,8 @@
 package infrastructure
 
 import (
-	"fmt"
+	"nu/corpus-reader/adapter/logger"
+	"nu/corpus-reader/infrastructure/log"
 	"nu/corpus-reader/infrastructure/router"
 	"strconv"
 	"time"
@@ -9,6 +10,7 @@ import (
 
 type config struct {
 	appName       string
+  logger        logger.Logger
 	ctxTimeout    time.Duration
 	webServer     router.Server
 	webServerPort router.Port
@@ -18,11 +20,20 @@ func NewConfig() *config {
 	return &config{}
 }
 
+
+func (c *config) Logger() *config {
+  log := log.NewLogrusLogger("CONFIG")
+  c.logger = log
+  c.logger.Infof("Configured logrus logger.")
+  return c
+}
+
 func (c *config) WebServer(instance int) *config {
 	s, err := router.WebServerFactory(
 		instance,
 		c.webServerPort,
 		c.ctxTimeout,
+    c.logger,
 	)
 	if err != nil {
 	}
@@ -36,7 +47,7 @@ func (c *config) WebServerPort(port string) *config {
 	}
 
 	c.webServerPort = router.Port(p)
-	fmt.Println("Sucessfully configured http server.")
+  c.logger.Infof("Sucessfully configured http server.")
 	return c
 }
 

@@ -6,9 +6,6 @@ import (
 )
 
 func main() {
-
-	var app = infrastructure.NewConfig()
-
+	var app = infrastructure.NewConfig().Logger()
 	app.WebServerPort("8080").WebServer(router.Gin).Start()
-
 }
