@@ -3,9 +3,7 @@ package log
 import (
 	"fmt"
 	"nu/corpus-reader/adapter/logger"
-	"path"
 	"runtime"
-	"strconv"
 
 	"github.com/sirupsen/logrus"
 )
@@ -21,7 +19,7 @@ func NewLogrusLogger(logPrefix string) logger.Logger {
     FullTimestamp: true,
     PadLevelText: true,
      CallerPrettyfier: func(frame *runtime.Frame) (function string, file string) {                                                     
-        fileName := fmt.Sprintf(" [%v] ", logPrefix) + path.Base(frame.File) + ":" + strconv.Itoa(frame.Line)       
+      fileName := fmt.Sprintf(" [%v]:", logPrefix)
         return "", fileName                                                      
      },     
   })
