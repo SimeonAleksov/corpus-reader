@@ -22,7 +22,7 @@ func NewConfig() *config {
 
 
 func (c *config) Logger() *config {
-  log := log.NewLogrusLogger("CONFIG")
+  log := log.NewLogrusLogger("HTTP")
   c.logger = log
   c.logger.Infof("Configured logrus logger.")
   return c
