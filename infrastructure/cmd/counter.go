@@ -23,7 +23,7 @@ var counterCommand = &cobra.Command{
     repo := repository.NewFactory().CreateRepository(repository.KMPSearch)
     result, err := services.NewPatternSearchService(repo).Search("ACACACACACA", word)
     if err != nil {
-      logger.WithError(err).Fatalln("Error starting HTTP server")
+      logger.WithError(err).Fatalln("Error while searching for pattern.")
     }
     logger.Infof("count: %v", result.Count)
   },
