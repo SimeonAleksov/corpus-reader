@@ -24,6 +24,7 @@ func (s *PatternSearchService) Search(text string, pattern string) (*domain.Patt
   count, err := s.patternSearchRepo.Search(text, pattern)
   if err != nil {
       logger.WithError(err).Fatalln("Error while searching pattern in text")
+      return nil, err
   }
 
   return count, nil
