@@ -32,7 +32,8 @@ func (s *PatternSearchService) SearchInDirectory(directory string, pattern strin
 	dirRepo := repository.NewDirectoryRepository()
 	res, err := dirRepo.ListFiles(directory, []string{"txt"})
 	if err != nil {
-		logger.WithError(err).Fatalln("Error while listing files.")
+		logger.WithError(err).Errorf("Error while listing files.")
+		return nil, err
 	}
 	count := 0
 	for _, filepath := range res.Files {

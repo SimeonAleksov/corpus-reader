@@ -44,10 +44,20 @@ func NewCreatePatternSearchInteractor(
 func (p createPatternSearchInteractor) Execute(ctx context.Context, input PatternSearchInput) (PatternSearchOutput, error) {
 	ctx, cancel := context.WithTimeout(ctx, p.ctxTimeout)
 	defer cancel()
-	result, _ := services.NewPatternSearchService(p.repo).SearchInDirectory(
+	result, err := services.NewPatternSearchService(p.repo).SearchInDirectory(
 		input.Directory,
 		input.Pattern,
 	)
+	if err != nil {
+		return PatternSearchOutput{}, err
+	}
 
 	return p.presenter.Output(*result), nil
+}
+
+func (i PatternSearchInput) Validate() *domain.RestError {
+	if i.Directory == "" {
+		return repository.BadRequestError("Missing directory.")
+	}
+	return nil
 }

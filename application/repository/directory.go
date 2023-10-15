@@ -1,8 +1,10 @@
 package repository
 
 import (
+	"errors"
 	"io/fs"
 	"io/ioutil"
+	"os"
 	"path/filepath"
 	"strings"
 
@@ -21,6 +23,10 @@ func NewDirectoryRepository() *DirectoryRepositoryImplementation {
 }
 
 func (f *DirectoryRepositoryImplementation) ListFiles(rootDirectory string, exts []string) (*domain.RootDirectory, error) {
+	if _, err := os.Stat(rootDirectory); errors.Is(err, os.ErrNotExist) {
+		return nil, errors.New("Directory does not exists.")
+	}
+
 	var files []string
 	err := filepath.WalkDir(rootDirectory, func(path string, d fs.DirEntry, err error) error {
 		if d.IsDir() {
