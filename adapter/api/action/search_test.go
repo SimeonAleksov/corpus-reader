@@ -37,7 +37,7 @@ func TestSearch(t *testing.T) {
 			expectedStatusCode: http.StatusOK,
 		},
 		{
-			name: "Search simple pattern",
+			name: "Search in directory",
 			args: args{
 				payload: []byte(
 					`{
@@ -48,6 +48,31 @@ func TestSearch(t *testing.T) {
 			},
 			expectedBody:       `{"count":0}`,
 			expectedStatusCode: http.StatusOK,
+		},
+		{
+			name: "Missing directory param",
+			args: args{
+				payload: []byte(
+					`{
+						"word": "John"
+					}`,
+				),
+			},
+			expectedBody:       `{"errors":["Missing directory."]}`,
+			expectedStatusCode: http.StatusBadRequest,
+		},
+		{
+			name: "Directory does not exist",
+			args: args{
+				payload: []byte(
+					`{
+						"word": "John",
+            "directory": "./random-non-existsant"
+					}`,
+				),
+			},
+			expectedBody:       `{"errors":["Directory does not exists."]}`,
+			expectedStatusCode: http.StatusBadRequest,
 		},
 	}
 
@@ -76,7 +101,7 @@ func TestSearch(t *testing.T) {
 			handler.HandleFunc("/counter", ac.PatternSearch)
 			handler.ServeHTTP(rr, req)
 
-			if status := rr.Code; status != http.StatusOK {
+			if status := rr.Code; status != testCase.expectedStatusCode {
 				t.Errorf("The handler returned an unexpected HTTP status code: returned '%v' expected '%v'",
 					status,
 					http.StatusOK,
