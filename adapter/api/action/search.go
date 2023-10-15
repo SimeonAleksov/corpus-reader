@@ -26,8 +26,19 @@ func (p PatternSearchAction) PatternSearch(w http.ResponseWriter, r *http.Reques
 		response.NewError(err, http.StatusBadRequest).Send(w)
 		return
 	}
+
+	if err := input.Validate(); err != nil {
+		response.NewError(err.Error, err.Status).Send(w)
+		return
+	}
+
 	defer r.Body.Close()
-	output, _ := p.uc.Execute(r.Context(), input)
+
+	output, err := p.uc.Execute(r.Context(), input)
+	if err != nil {
+		response.NewError(err, http.StatusBadRequest).Send(w)
+		return
+	}
 
 	response.NewSuccess(output, http.StatusOK).Send(w)
 }
