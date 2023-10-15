@@ -67,5 +67,6 @@ func (g webEngine) Listen() {
 
 
 func (g webEngine) setAppHandlers(router *gin.Engine) {
-	router.GET("v1/healthcheck/", g.healthcheck())
+	router.GET("/healthcheck", g.healthcheck())
+  router.POST("/counter", g.search())
 }
