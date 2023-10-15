@@ -15,15 +15,14 @@ func (g webEngine) healthcheck() gin.HandlerFunc {
 	}
 }
 
-
 func (g webEngine) search() gin.HandlerFunc {
 	return func(c *gin.Context) {
-    repo := repository.NewFactory().CreateRepository(repository.KMPSearch)
-    uc := usecase.NewCreatePatternSearchInteractor(
-      repo,
-      presenter.NewCreatePatternSearchPresenter(),
-      g.ctxTimeout,
-    )
-    action.NewPatternSearchAction(uc).PatternSearch(c.Writer, c.Request)
+		repo := repository.NewFactory().CreateRepository(repository.KMPSearch)
+		uc := usecase.NewCreatePatternSearchInteractor(
+			repo,
+			presenter.NewCreatePatternSearchPresenter(),
+			g.ctxTimeout,
+		)
+		action.NewPatternSearchAction(uc).PatternSearch(c.Writer, c.Request)
 	}
 }

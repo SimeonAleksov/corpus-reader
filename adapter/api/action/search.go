@@ -7,29 +7,27 @@ import (
 	"nu/corpus-reader/application/usecase"
 )
 
-
 type PatternSearchAction struct {
-  uc usecase.PatternSearchUseCase
+	uc usecase.PatternSearchUseCase
 }
 
-
 func NewPatternSearchAction(
-  uc usecase.PatternSearchUseCase,
+	uc usecase.PatternSearchUseCase,
 ) PatternSearchAction {
-  return PatternSearchAction{
-    uc: uc,
-  }
+	return PatternSearchAction{
+		uc: uc,
+	}
 }
 
 func (p PatternSearchAction) PatternSearch(w http.ResponseWriter, r *http.Request) {
-  var input usecase.PatternSearchInput
+	var input usecase.PatternSearchInput
 
-  if err := json.NewDecoder(r.Body).Decode(&input); err != nil {
-    response.NewError(err, http.StatusBadRequest).Send(w)
-    return
-  }
-  defer r.Body.Close()
-  output, _ := p.uc.Execute(r.Context(), input)
+	if err := json.NewDecoder(r.Body).Decode(&input); err != nil {
+		response.NewError(err, http.StatusBadRequest).Send(w)
+		return
+	}
+	defer r.Body.Close()
+	output, _ := p.uc.Execute(r.Context(), input)
 
-  response.NewSuccess(output, http.StatusOK).Send(w)
+	response.NewSuccess(output, http.StatusOK).Send(w)
 }

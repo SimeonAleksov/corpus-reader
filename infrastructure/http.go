@@ -10,7 +10,7 @@ import (
 
 type config struct {
 	appName       string
-  logger        logger.Logger
+	logger        logger.Logger
 	ctxTimeout    time.Duration
 	webServer     router.Server
 	webServerPort router.Port
@@ -20,12 +20,11 @@ func NewConfig() *config {
 	return &config{}
 }
 
-
 func (c *config) Logger() *config {
-  log := log.NewLogrusLogger("HTTP")
-  c.logger = log
-  c.logger.Infof("Configured logrus logger.")
-  return c
+	log := log.NewLogrusLogger("HTTP")
+	c.logger = log
+	c.logger.Infof("Configured logrus logger.")
+	return c
 }
 
 func (c *config) WebServer(instance int) *config {
@@ -33,7 +32,7 @@ func (c *config) WebServer(instance int) *config {
 		instance,
 		c.webServerPort,
 		c.ctxTimeout,
-    c.logger,
+		c.logger,
 	)
 	if err != nil {
 	}
@@ -47,7 +46,7 @@ func (c *config) WebServerPort(port string) *config {
 	}
 
 	c.webServerPort = router.Port(p)
-  c.logger.Infof("Sucessfully configured http server.")
+	c.logger.Infof("Sucessfully configured http server.")
 	return c
 }
 

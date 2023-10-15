@@ -28,4 +28,3 @@ func TestPatternSearchRepositoryImplementation_Search(t *testing.T) {
 		})
 	}
 }
-

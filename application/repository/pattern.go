@@ -5,21 +5,20 @@ import (
 )
 
 type PatternSearchRepository interface {
-  Search(Text string, Pattern string) (*domain.PatternSearchResult, error)
+	Search(Text string, Pattern string) (*domain.PatternSearchResult, error)
 }
 
 type PatternSearchRepositoryImplementation struct {
-
 }
 
 func NewPatternSearchRepositoryImplementation() *PatternSearchRepositoryImplementation {
-  return &PatternSearchRepositoryImplementation{}
+	return &PatternSearchRepositoryImplementation{}
 }
 
 func (repo *PatternSearchRepositoryImplementation) Search(text string, pattern string) (*domain.PatternSearchResult, error) {
-  patternMatch := NewMatch(pattern)
-  count := patternMatch.search(text)
-  result := domain.NewPatternSearchResult(count)
+	patternMatch := NewMatch(pattern)
+	count := patternMatch.search(text)
+	result := domain.NewPatternSearchResult(count)
 
-  return &result, nil
+	return &result, nil
 }

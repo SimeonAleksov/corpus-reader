@@ -7,13 +7,12 @@ import (
 	"github.com/spf13/cobra"
 )
 
-
 var runserverCommand = &cobra.Command{
-  Use:   "runserver",
-  Short: "Start a http server",
-  Long:  ``,
-  Run: func(cmd *cobra.Command, args []string) {
-    var app = infrastructure.NewConfig().Logger()
-    app.WebServerPort("8080").WebServer(router.Gin).Start()
-  },
+	Use:   "runserver",
+	Short: "Start a http server",
+	Long:  ``,
+	Run: func(cmd *cobra.Command, args []string) {
+		var app = infrastructure.NewConfig().Logger()
+		app.WebServerPort("8080").WebServer(router.Gin).Start()
+	},
 }

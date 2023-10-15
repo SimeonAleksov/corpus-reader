@@ -31,19 +31,19 @@ func (s *PatternSearchService) Search(text string, pattern string) (*domain.Patt
 func (s *PatternSearchService) SearchInDirectory(directory string, pattern string) (*domain.PatternSearchResult, error) {
 	dirRepo := repository.NewDirectoryRepository()
 	res, err := dirRepo.ListFiles(directory, []string{"txt"})
-    if err != nil {
-      logger.WithError(err).Fatalln("Error while listing files.")
-    }
+	if err != nil {
+		logger.WithError(err).Fatalln("Error while listing files.")
+	}
 	count := 0
 	for _, filepath := range res.Files {
 		content, err := dirRepo.GetFileContent(filepath)
-    if err != nil {
-      logger.WithError(err).Fatalln("Error while reading content.")
-    }
+		if err != nil {
+			logger.WithError(err).Fatalln("Error while reading content.")
+		}
 		res, err := s.Search(content, pattern)
-    if err != nil {
-      logger.WithError(err).Fatalln("Error while searching for pattern.")
-    }
+		if err != nil {
+			logger.WithError(err).Fatalln("Error while searching for pattern.")
+		}
 		count = count + res.Count
 	}
 	return &domain.PatternSearchResult{

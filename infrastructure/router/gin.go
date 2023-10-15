@@ -15,7 +15,7 @@ import (
 
 type webEngine struct {
 	router     *gin.Engine
-  log         logger.Logger
+	log        logger.Logger
 	port       Port
 	ctxTimeout time.Duration
 }
@@ -23,11 +23,11 @@ type webEngine struct {
 func newServer(
 	port Port,
 	t time.Duration,
-  log logger.Logger,
+	log logger.Logger,
 ) *webEngine {
 	return &webEngine{
 		router:     gin.New(),
-    log: log,
+		log:        log,
 		port:       port,
 		ctxTimeout: t,
 	}
@@ -49,9 +49,10 @@ func (g webEngine) Listen() {
 	stop := make(chan os.Signal, 1)
 	signal.Notify(stop, os.Interrupt, syscall.SIGINT, syscall.SIGTERM)
 	go func() {
-   	g.log.WithFields(logger.Fields{"port": g.port}).Infof("Starting HTTP Server")
+		g.log.WithFields(logger.Fields{"port": g.port}).Infof("Starting HTTP Server")
 		if err := server.ListenAndServe(); err != nil {
-      g.log.WithError(err).Fatalln("Error starting HTTP server")}
+			g.log.WithError(err).Fatalln("Error starting HTTP server")
+		}
 	}()
 
 	<-stop
@@ -62,11 +63,11 @@ func (g webEngine) Listen() {
 	}()
 
 	if err := server.Shutdown(ctx); err != nil {
-    g.log.WithError(err).Fatalln("Error starting HTTP server")}
+		g.log.WithError(err).Fatalln("Error starting HTTP server")
 	}
-
+}
 
 func (g webEngine) setAppHandlers(router *gin.Engine) {
 	router.GET("/healthcheck", g.healthcheck())
-  router.POST("/counter", g.search())
+	router.POST("/counter", g.search())
 }

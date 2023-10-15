@@ -14,15 +14,15 @@ type logrusLogger struct {
 
 func NewLogrusLogger(logPrefix string) logger.Logger {
 	log := logrus.New()
-  log.SetReportCaller(true)
+	log.SetReportCaller(true)
 	log.SetFormatter(&logrus.TextFormatter{
-    FullTimestamp: true,
-    PadLevelText: true,
-     CallerPrettyfier: func(frame *runtime.Frame) (function string, file string) {                                                     
-      fileName := fmt.Sprintf(" [%v]:", logPrefix)
-        return "", fileName                                                      
-     },     
-  })
+		FullTimestamp: true,
+		PadLevelText:  true,
+		CallerPrettyfier: func(frame *runtime.Frame) (function string, file string) {
+			fileName := fmt.Sprintf(" [%v]:", logPrefix)
+			return "", fileName
+		},
+	})
 
 	return &logrusLogger{logger: log}
 }

@@ -1,5 +1,5 @@
 package domain
 
 type RootDirectory struct {
-  Files []string
+	Files []string
 }

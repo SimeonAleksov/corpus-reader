@@ -8,7 +8,7 @@ var (
 	rootCmd = &cobra.Command{
 		Use:   "",
 		Short: "",
-		Long: ``,
+		Long:  ``,
 	}
 )
 
@@ -18,11 +18,11 @@ func Execute() error {
 }
 
 func init() {
-  counterCommand.Flags().StringVarP(&word, "word", "w", "", "Word or a pattern to search through a directory.")
-  counterCommand.Flags().StringVarP(&directory, "dir", "d", "", "Where to search")
-  counterCommand.MarkFlagRequired("word")
-  counterCommand.MarkFlagRequired("dir")
+	counterCommand.Flags().StringVarP(&word, "word", "w", "", "Word or a pattern to search through a directory.")
+	counterCommand.Flags().StringVarP(&directory, "dir", "d", "", "Where to search")
+	counterCommand.MarkFlagRequired("word")
+	counterCommand.MarkFlagRequired("dir")
 
-  rootCmd.AddCommand(runserverCommand)
-  rootCmd.AddCommand(counterCommand)
+	rootCmd.AddCommand(runserverCommand)
+	rootCmd.AddCommand(counterCommand)
 }

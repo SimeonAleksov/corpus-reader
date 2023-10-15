@@ -6,18 +6,15 @@ import (
 	"net/http"
 )
 
-
 var (
-  InvalidParameterError = errors.New("invalid parameter")
-  InvalidInputError = errors.New("invalid error")
+	InvalidParameterError = errors.New("invalid parameter")
+	InvalidInputError     = errors.New("invalid error")
 )
 
-
 type Error struct {
-  statusCode int
-  Errors []string `json:"errors"`
+	statusCode int
+	Errors     []string `json:"errors"`
 }
-
 
 func NewError(err error, status int) *Error {
 	return &Error{

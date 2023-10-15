@@ -2,22 +2,21 @@ package repository
 
 type RepositoryType int
 
-
 const (
-  KMPSearch RepositoryType = iota
+	KMPSearch RepositoryType = iota
 )
 
-type RepositoryFactory struct {}
+type RepositoryFactory struct{}
 
 func NewFactory() *RepositoryFactory {
-  return &RepositoryFactory{}
+	return &RepositoryFactory{}
 }
 
-func (f *RepositoryFactory) CreateRepository(repositoryType RepositoryType) PatternSearchRepository  {
-  switch repositoryType {
-  case KMPSearch:
-    return NewPatternSearchRepositoryImplementation()
-  default:
-    return nil
-  }
+func (f *RepositoryFactory) CreateRepository(repositoryType RepositoryType) PatternSearchRepository {
+	switch repositoryType {
+	case KMPSearch:
+		return NewPatternSearchRepositoryImplementation()
+	default:
+		return nil
+	}
 }

@@ -13,7 +13,7 @@ type (
 		Execute(context.Context, PatternSearchInput) (PatternSearchOutput, error)
 	}
 	PatternSearchInput struct {
-		Pattern      string `json:"word"`
+		Pattern   string `json:"word"`
 		Directory string `json:"directory"`
 	}
 	PatternSearchPresenter interface {

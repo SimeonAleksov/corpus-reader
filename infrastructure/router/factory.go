@@ -21,7 +21,7 @@ func WebServerFactory(
 	instance int,
 	port Port,
 	ctxTimeout time.Duration,
-  log logger.Logger,
+	log logger.Logger,
 ) (Server, error) {
 	switch instance {
 	case Gin:
